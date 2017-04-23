@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+    <title>Document</title>
+    <style>
+        #slider{positon:relative;margin:0 auto;width:950px;height:400px;overflow:hidden;}
+        #slider img{width:950px;height:400px;}
+        #slider li{list-style:none;}
+
+        .sliderbutton{position:relative;margin:0 auto;width:120px;margin-top:-25px;}
+        .sliderbutton li{list-style: none;padding:5px;background:red;float:left;margin-right:10px;border-radius:10px;}
+        .sliderleft{cursor:pointer;background:rgba(0,0,0,0.2);position:absolute;width:50px;height:400px;line-height:400px;}
+
+        .sliderright{margin-left:900px;cursor:pointer;background:rgba(0,0,0,0.2);position:absolute;width:50px;height:400px;line-height:400px;}
+    </style>
+    <script>
+        $(document).ready(function(){
+            var slider = 0;
+            $('.sliderbutton li:first').css('background','yellow');
+            $.slider = function(toplam){
+                $('#slider li').hide();
+                if(slider < toplam-1)
+                {
+                    slider++;
+                    $('.sliderbutton li').css('background','red');
+                    $('.sliderbutton li:eq('+slider+')').css('background','yellow');
+                    $('#slider li:eq('+slider+')').fadeIn("fast");
+
+                }else if(slider < 0){
+
+                    slider = toplam-1;
+                    $('.sliderbutton li').css('background','red');
+                    $('.sliderbutton li:eq('+slider+')').css('background','yellow');
+                    $('#slider li:eq('+slider+')').fadeIn("fast");
+                }else{
+
+                    $('#slider li:first').fadeIn("fast");
+                    slider=0;
+                    $('.sliderbutton li').css('background','red');
+                    $('.sliderbutton li:eq('+slider+')').css('background','yellow');
+                }
+            }
+            var lenghtli = $('#slider li').length;
+            var interval = setInterval('$.slider('+lenghtli+')',3000);
+            $('#slider').hover(function(){
+                interval = clearInterval(interval);
+            },function(){
+                interval = setInterval('$.slider('+lenghtli+')',3000);
+            })
+            $('.sliderbutton li').click(function(){
+                $('.sliderbutton li').css('background','red');
+                $(this).css('background','yellow');
+                interval = clearInterval(interval);
+               var indis = $(this).index();
+                $('#slider li').hide();
+                $('#slider li:eq('+indis+')').fadeIn("fast");
+                slider = indis;
+                interval = setInterval('$.slider('+lenghtli+')',3000);
+
+            });
+            $('.sliderleft').click(function () {
+
+                slider--;
+                $('.sliderbutton li').css('background','red');
+                if(slider < 0)
+                {
+                    $('.sliderbutton li:last').css('background','yellow');
+                    slider = lenghtli-1;
+                }else{
+                    $('.sliderbutton li:eq('+slider+')').css('background','yellow');
+                }
+
+                $('#slider li').hide();
+                $('#slider li:eq('+slider+')').fadeIn("fast");
+
+
+            });
+            $('.sliderright').click(function () {
+
+                slider++;
+                $('.sliderbutton li').css('background','red');
+                if(slider > lenghtli-1)
+                {
+                    $('.sliderbutton li:first').css('background','yellow');
+                    slider = 0;
+                }else{
+                    $('.sliderbutton li:eq('+slider+')').css('background','yellow');
+                }
+
+                $('#slider li').hide();
+                $('#slider li:eq('+slider+')').fadeIn("fast");
+
+
+            });
+
+        });
+
+
+    </script>
+</head>
+<body>
+
+
+<div id="slider">
+
+    <div class="sliderleft"></div>
+    <div class="sliderright"></div>
+   <li> <img src="1.jpg" alt=""></li>
+   <li> <img src="2.jpg" alt=""></li>
+   <li> <img src="3.jpg" alt=""></li>
+   <li> <img src="4.jpg" alt=""></li>
+
+</div>
+<div class="sliderbutton">
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+</div>
+
+
+</body>
+</html>
